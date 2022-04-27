@@ -23,20 +23,20 @@ func LoginAPI(c *gin.Context) {
 	f := &models.LoginAPIRequest{}
 	err := c.BindJSON(f)
 	if err != nil {
-		c.JSON(http.StatusOK, models.NewErrorResponse("用户名或密码错误"))
+		c.JSON(http.StatusOK, models.NewErrorResponse("用户名或密码错误1"))
 		return
 	}
 
 	repo := repository.GetUserRepo(db.GetRedisClient())
 	u, err := repo.FindOneByUsername(strings.TrimSpace(f.Username))
 	if err != nil {
-		c.JSON(http.StatusOK, models.NewErrorResponse("用户名或密码错误"))
+		c.JSON(http.StatusOK, models.NewErrorResponse("用户名或密码错误2"))
 		return
 	}
 
 	dk, _ := utils.EncodePassword([]byte(f.Password), u.Salt)
 	if string(u.Password) != string(dk) {
-		c.JSON(http.StatusOK, models.NewErrorResponse("用户名或密码错误"))
+		c.JSON(http.StatusOK, models.NewErrorResponse("用户名或密码错误3"))
 		return
 	}
 
